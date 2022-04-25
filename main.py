@@ -23,15 +23,15 @@ def get_mod_name(path):
 
 def get_special_dirs(path):
     joined_path = os.path.join(path, "LoadFolders.xml")
-    additional_dirs = []
+    additional_dirs = set()
     if os.path.exists(joined_path):
         load_folder = ET.parse(joined_path).getroot()
         for child in load_folder:
             for li in child:
                 if li.text != '/':
-                    additional_dirs.append(li.text)
+                    additional_dirs.add(li.text)
     print(f'Dirs from LoadFolders.xml: {additional_dirs}')
-    return additional_dirs
+    return list(additional_dirs)
 
 
 def make_release(start_dir, target_dir, release, zip_tool):
