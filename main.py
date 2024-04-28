@@ -9,7 +9,7 @@ import argparse
 import xml.etree.ElementTree as ET
 
 default_dir_list = ["About", "Assemblies", "Defs", "Patches", "Languages", "Textures", "LoadFolders.xml",
-                    "changelog.txt"]
+                    "changelog.txt", "1.5", "1.4", "1.3", "1.2", "1.1"]
 
 
 def get_mod_name(path):
@@ -45,13 +45,13 @@ def make_release(start_dir, target_dir, release, zip_tool):
 
         all_files_to_copy = default_dir_list + get_special_dirs(start_dir)
         print("=======================Data copy===============================")
-        for file in all_files_to_copy:
+        for file in list(dict.fromkeys(all_files_to_copy)):
             path_to_copy = os.path.join(start_dir, file)
             if os.path.exists(path_to_copy):
                 target = os.path.join(local_directory, file)
                 print(f'Copy {path_to_copy} to {target}')
                 if os.path.isdir(path_to_copy):
-                    shutil.copytree(path_to_copy, target)
+                    shutil.copytree(path_to_copy, target, dirs_exist_ok=True)
                 else:
                     shutil.copyfile(path_to_copy, target)
 
